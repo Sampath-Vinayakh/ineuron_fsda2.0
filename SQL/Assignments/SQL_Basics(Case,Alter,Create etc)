@@ -49,19 +49,20 @@ ADD PRIMARY KEY(order_id);
 
 DESCRIBE TABLE Sales_Data;
 
--- 2. CHECK THE ORDER DATE AND SHIP DATE TYPE AND THINK IN WHICH DATA TYPE YOU HAVE TO CHANGE.
+-- 2. Check the data type for Order date and Ship date and mention in what data type it should be?
 
 DESCRIBE TABLE Sales_Data;
 
+-- Datatype should be date.
+
 -- ALREADY CHANGED DURING CREATING AND LOADING DATA
 
--- 3. EXTRACT THE LAST NUMBER AFTER THE - FROM ORDER_ID AND CREATE OTHER COLUMN AND UPDATE IT. 
+-- 3. Create a new column called order_extract and extract the number after the last‘–‘from Order ID column.
 
 SELECT *,split_part(ORDER_ID,'-',3) AS order_extract
 FROM Sales_data;
 
-
--- 4.  FLAG ,IF DISCOUNT IS GREATER THEN 0 THEN  YES ELSE FALSE AND PUT IT IN NEW COLUMN FROM EVERY ORDER ID.
+-- 4. Create a new column called Discount Flag and categorize it based on discount.Use ‘Yes’ if the discount is greater than zero else ‘No’.
 
 SELECT *,
         CASE WHEN DISCOUNT > 0 THEN 'Yes'
@@ -73,7 +74,7 @@ FROM Sales_data;
 
 -- ALREADY GIVEN IN THE TABLE
 
--- 6.  FIND OUT HOW MUCH DAYS TAKEN FOR EACH ORDER TO PROCESS FOR THE SHIPMENT FOR EVERY ORDER ID.
+-- 6.  Create a new column called process days and calculate how many days it takes for each order id to process from the order to its shipment.
 
 SELECT *,DATEDIFF('DAY',ORDER_DATE,SHIP_DATE) AS PROCESS_DAYS
 FROM Sales_data;
