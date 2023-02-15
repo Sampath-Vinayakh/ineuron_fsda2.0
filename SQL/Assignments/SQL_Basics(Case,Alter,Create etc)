@@ -1,0 +1,89 @@
+USE WAREHOUSE PRACTICE_WAREHOUSE;
+
+USE PRACTICE_DATABASE;
+------------------ ASSIGNMENT ---------------------------------------------------------
+
+CREATE OR REPLACE TABLE Sales_data
+(
+  order_id VARCHAR2(50),
+  order_date DATE PRIMARY KEY,
+  ship_date DATE,
+  ship_mode VARCHAR(15),
+  customer_name VARCHAR2(50),
+  segment VARCHAR2(15),
+  state VARCHAR2(100),
+  country VARCHAR2(50),
+  market VARCHAR2(15),
+  region VARCHAR2(20),
+  product_id VARCHAR(40),
+  category VARCHAR2(40),
+  sub_category VARCHAR2(200),
+  product_name VARCHAR2(),
+  sales INT,
+  quantity INT,
+  discount DECIMAL(20,2),
+  profit FLOAT,
+  shipping_cost DECIMAL(20,2),
+  order_priority VARCHAR(20),
+  year VARCHAR(10)
+  );
+  
+DESCRIBE TABLE Sales_data;
+  
+SELECT *
+FROM Sales_data;
+
+
+-- TO CHECK FOR DUPLICATES
+
+SELECT DISTINCT *
+FROM Sales_data;
+  
+-- 1 .SET PRIMARY KEY.
+
+ALTER TABLE Sales_data
+DROP PRIMARY KEY;
+
+ALTER TABLE Sales_data
+ADD PRIMARY KEY(order_id);
+
+DESCRIBE TABLE Sales_Data;
+
+-- 2. CHECK THE ORDER DATE AND SHIP DATE TYPE AND THINK IN WHICH DATA TYPE YOU HAVE TO CHANGE.
+
+DESCRIBE TABLE Sales_Data;
+
+-- ALREADY CHANGED DURING CREATING AND LOADING DATA
+
+-- 3. EXTRACT THE LAST NUMBER AFTER THE - FROM ORDER_ID AND CREATE OTHER COLUMN AND UPDATE IT. 
+
+SELECT *,split_part(ORDER_ID,'-',3) AS order_extract
+FROM Sales_data;
+
+
+-- 4.  FLAG ,IF DISCOUNT IS GREATER THEN 0 THEN  YES ELSE FALSE AND PUT IT IN NEW COLUMN FROM EVERY ORDER ID.
+
+SELECT *,
+        CASE WHEN DISCOUNT > 0 THEN 'Yes'
+             ELSE 'No'
+        END AS DISCOUNT_FLAG
+FROM Sales_data;
+
+-- 5.  FIND OUT THE FINAL PROFIT AND PUT IT IN COLUMN FOR EVERY ORDER ID. 
+
+-- ALREADY GIVEN IN THE TABLE
+
+-- 6.  FIND OUT HOW MUCH DAYS TAKEN FOR EACH ORDER TO PROCESS FOR THE SHIPMENT FOR EVERY ORDER ID.
+
+SELECT *,DATEDIFF('DAY',ORDER_DATE,SHIP_DATE) AS PROCESS_DAYS
+FROM Sales_data;
+
+-- 7 . FLAG THE PROCESS DAY AS BY RATING IF IT TAKES LESS OR EQUAL 3  DAYS MAKE 5,LESS OR EQUAL THAN 6 DAYS BUT MORE THAN 3 MAKE 4,LESS THAN 10 BUT MORE THAN 6 MAKE 3,MORE THAN 10 MAKE IT 2 FOR EVERY ORDER ID.
+
+SELECT *,DATEDIFF('DAY',ORDER_DATE,SHIP_DATE) AS PROCESS_DAYS,
+                                                              CASE WHEN PROCESS_DAYS <=3 THEN 5
+                                                                   WHEN PROCESS_DAYS BETWEEN 4 AND 6 THEN 4
+                                                                   WHEN PROCESS_DAYS BETWEEN 7 AND 10 THEN 3
+                                                                   ELSE 2 
+                                                              END AS RATING
+FROM Sales_data;
