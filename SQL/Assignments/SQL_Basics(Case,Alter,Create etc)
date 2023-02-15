@@ -39,7 +39,7 @@ FROM Sales_data;
 SELECT DISTINCT *
 FROM Sales_data;
   
--- 1 .SET PRIMARY KEY.
+-- 1. Change the Primary key to Order Id Column.
 
 ALTER TABLE Sales_data
 DROP PRIMARY KEY;
